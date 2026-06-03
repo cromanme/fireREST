@@ -47,6 +47,8 @@ from fireREST.fmc.object.dynamicobject import DynamicObject
 from fireREST.fmc.object.endpointdevicetype import EndpointDeviceType
 from fireREST.fmc.object.expandedcommunitylist import ExpandedCommunityList
 from fireREST.fmc.object.extendedaccesslist import ExtendedAccessList
+from fireREST.fmc.object.extendedcommunitylist import ExtendedCommunityList
+from fireREST.fmc.object.localrealmuser import LocalRealmUser
 from fireREST.fmc.object.fqdn import Fqdn
 from fireREST.fmc.object.geolocation import GeoLocation
 from fireREST.fmc.object.globaltimezone import GlobalTimeZone
@@ -134,6 +136,8 @@ class Object:
         self.endpointdevicetype = EndpointDeviceType(conn)
         self.expandedcommunitylist = ExpandedCommunityList(conn)
         self.extendedaccesslist = ExtendedAccessList(conn)
+        self.extendedcommunitylist = ExtendedCommunityList(conn)
+        self.localrealmuser = LocalRealmUser(conn)
         self.fqdn = Fqdn(conn)
         self.geolocation = GeoLocation(conn)
         self.globaltimezone = GlobalTimeZone(conn)

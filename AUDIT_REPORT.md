@@ -2,20 +2,20 @@
 
 **Spec:** `.llm/fmc_oas3_7.4.2.json` (FMC 7.4.2)  
 **Branch:** `code-audit`  
-**Date:** 2026-06-03  
-**Scope:** All HTTP methods (GET, POST, PUT, DELETE, PATCH) across all 628 OAS3 paths and 368 resource implementation files.
+**Date:** 2026-06-03 (updated 2026-06-03 with Objects API doc cross-reference)  
+**Scope:** All HTTP methods (GET, POST, PUT, DELETE, PATCH) across all 628 OAS3 paths and 368 resource implementation files; cross-referenced against `.llm/Objectsin the RESTAPI.md` namespace ToC.
 
 ---
 
 ## Summary
 
-| Severity | Count | Description |
-|---|---|---|
-| CRITICAL | 4 | Requests always fail or cause Python exceptions |
-| HIGH | 13 | Wrong path/container — every API call returns 4xx |
-| MEDIUM | 8 | Missing filter/param entries — KeyError on use |
-| LOW | 20+ | Missing implementations for spec-defined endpoints |
-| INFO | 64+ | Spec `filter` param supported but `SUPPORTED_FILTERS` is empty |
+| Severity | Count | Description                                                    |
+|----------|-------|----------------------------------------------------------------|
+| CRITICAL | 4     | Requests always fail or cause Python exceptions                |
+| HIGH     | 14    | Wrong path/container — every API call returns 4xx              |
+| MEDIUM   | 8     | Missing filter/param entries — KeyError on use                 |
+| LOW      | 30+   | Missing implementations for spec-defined endpoints             |
+| INFO     | 64+   | Spec `filter` param supported but `SUPPORTED_FILTERS` is empty |
 
 **Breaking change column** marks fixes that change public API surface (attribute paths, method signatures, or observable behavior).
 
@@ -276,6 +276,18 @@ Move the file from `policy/ftds2svpn/ipseccryptomap/` to `policy/ravpn/ipseccryp
 
 ---
 
+### H-14: `TestUmbrellaConnection` missing `/operational/` segment
+
+**File:** [integration/testumbrellaconnection/\_\_init\_\_.py](fireREST/fmc/integration/testumbrellaconnection/__init__.py)
+
+**Current PATH:** `/integration/testumbrellaconnections`  
+**Correct PATH:** `/integration/operational/testumbrellaconnections`  
+**OAS3:** `POST /integration/operational/testumbrellaconnections`
+
+**Breaking:** NO — POST-only endpoint, path segment addition.
+
+---
+
 ## MEDIUM — Unmapped filter/param keys cause `KeyError` at runtime
 
 When a user calls `get()` with one of these keyword arguments, `utils.support_params` looks up the key in the `FILTERS` or `PARAMS` dict and raises `KeyError` because the key is missing.
@@ -374,16 +386,63 @@ The following OAS3-defined endpoints have no corresponding fireREST implementati
 
 ### L-01: Missing entire resources (new classes needed)
 
+**Object namespace:**
+
 | OAS3 Path | Methods | Notes |
 |---|---|---|
-| `/object/extendedcommunitylists/{uuid}` | GET, PUT, DELETE | Full CRUD + overrides |
-| `/object/localrealmusers/{uuid}` | GET, PUT, DELETE | Full CRUD |
-| `/object/operational/umbrellaprotectionpolicies` | GET, POST | New operational resource |
-| `/policy/operational/policylocks` | GET, POST | Conflicts with broken `PolicyLock` (H-04) |
-| `/policy/s2svpnsummaries` | GET | Conflicts with broken `S2sVpnSummary` (H-07) |
-| `/search/device` | GET | Search namespace, no container |
+| `/object/extendedcommunitylists/{uuid}` | GET, POST, PUT, DELETE | Full CRUD + overrides child |
+| `/object/extendedcommunitylists/{container_uuid}/overrides/{uuid}` | GET | Override child resource |
+| `/object/localrealmusers/{uuid}` | GET, POST, PUT, DELETE | Full CRUD |
+| `/object/operational/umbrellaprotectionpolicies` | GET, POST | List-only (no `/{uuid}`) |
+
+**Search namespace (entire namespace missing — wire as `fmc.search`):**
+
+| OAS3 Path | Methods | Notes |
+|---|---|---|
+| `/search/global` | GET | Global cross-object search |
+| `/search/object` | GET | Object-scoped search |
+| `/search/policy` | GET | Policy-scoped search |
+| `/search/device` | GET | Device-scoped search |
+
+**NetMap namespace:**
+
+| OAS3 Path | Methods | Notes |
+|---|---|---|
+| `/vulns/{uuid}` (NAMESPACE=`netmap`) | GET, POST, DELETE | Vulnerability feed |
+
+**Device namespace — interfaces:**
+
+| OAS3 Path | Methods | Notes |
+|---|---|---|
+| `/devices/devicerecords/{container_uuid}/vniinterfaces/{uuid}` | GET, POST, PUT, DELETE | VXLAN VNI interface |
+| `/devices/devicerecords/{container_uuid}/vteppolicies/{uuid}` | GET, POST, PUT, DELETE | VXLAN VTEP policy |
+
+**Device namespace — routing (non-VR):**
+
+| OAS3 Path | Methods | Notes |
+|---|---|---|
+| `/devices/devicerecords/{container_uuid}/routing/ecmpzones/{uuid}` | GET, POST, PUT, DELETE | ECMP zone (device-level) |
+| `/devices/devicerecords/{container_uuid}/routing/ospfv3routes/{uuid}` | GET | OSPFv3 route table (read-only) |
+
+**Device namespace — routing (VR-level nested):**
+
+| OAS3 Path | Methods | Notes |
+|---|---|---|
+| `/devices/devicerecords/{container_uuid}/routing/virtualrouters/{child_container_uuid}/ecmpzones/{uuid}` | GET, POST, PUT, DELETE | ECMP zone (VR-level `NestedChildResource`) |
+
+**Policy namespace:**
+
+| OAS3 Path | Methods | Notes |
+|---|---|---|
+| `/policy/operational/policylocks` | GET, POST | Replaces broken `PolicyLock` (H-04) — list-only |
+| `/policy/s2svpnsummaries` | GET | Replaces broken `S2sVpnSummary` (H-07) — `Resource` |
+| `/policy/ravpns/{container_uuid}/ipseccryptomaps/{uuid}` | GET, PUT | Replaces broken `IpsecCryptoMap` (C-04) under `RaVpn` |
+
+**Integration namespace:**
+
+| OAS3 Path | Methods | Notes |
+|---|---|---|
 | `/integration/operational/refreshsecurexconfigs` | POST | Operational action |
-| `/integration/operational/testumbrellaconnections` | POST | Operational action |
 
 ### L-02: Missing operational action endpoints (custom methods needed)
 
@@ -470,11 +529,131 @@ The `OspfV3Route` class in `fireREST/fmc/device/devicerecord/routing/virtualrout
 
 ---
 
-## Fix Priority
+## Implementation Plan
 
-1. **Merge `fix/102-hitcount-delete`** — fixes C-01 (no code changes required here)
-2. **C-02/C-03** — TID URL builder one-line fix, unblocks all TID/TaxiiConfig functionality
-3. **C-04** — `IpsecCryptoMap` container change (breaking, needs CHANGELOG entry)
-4. **H-01 to H-13** — Path fixes (most are non-breaking `/{uuid}` removals)
-5. **M-01 to M-08** — Mapping dict additions (low risk, one-liner each)
-6. **L-01, L-02** — New resource implementations (additive, no breaking changes)
+### Phase 1 — Critical bug fixes (unblock broken namespaces)
+
+| # | Task | File(s) | Breaking |
+|---|---|---|---|
+| 1.1 | Merge branch `fix/102-hitcount-delete` into `master` (fixes C-01) | — | NO |
+| 1.2 | Fix TID URL builder: add `/domain/{domain_id}` segment (C-02) | `fireREST/fmc/__init__.py` | YES |
+| 1.3 | Fix TaxiiConfig: same URL fix + remove `/{uuid}` from both PATHs (C-03) | `intelligence/taxiiconfig/collection/__init__.py`, `intelligence/taxiiconfig/discoveryinfo/__init__.py` | YES |
+| 1.4 | Move `IpsecCryptoMap` from `ftds2svpn/` to `ravpn/` with correct PATH (C-04) | `policy/ftds2svpn/ipseccryptomap/`, `policy/ravpn/__init__.py` | YES |
+
+### Phase 2 — HIGH path fixes (all existing classes returning 4xx)
+
+| # | Task | File | Breaking |
+|---|---|---|---|
+| 2.1 | `AllowDnsRule`: pluralize + remove `/{uuid}` (H-01) | `policy/dnspolicy/allowdnsrule/__init__.py` | NO |
+| 2.2 | `BlockDnsRule`: pluralize + remove `/{uuid}` (H-02) | `policy/dnspolicy/blockdnsrule/__init__.py` | NO |
+| 2.3 | `EbsSnapshot`: singular path `ebssnapshot` (H-03) | `integration/ebssnapshot/__init__.py` | YES |
+| 2.4 | `PolicyLock`: add `/operational/` + remove `/{uuid}` (H-04) | `policy/policylock/__init__.py` | YES |
+| 2.5 | `Usage`: fix `/objects/` → `/object/` typo (H-05) | `object/operational/usage/__init__.py` | YES |
+| 2.6 | `Hitcount` (both): remove `/{uuid}` suffix (H-06) | `policy/accesspolicy/operational/hitcounts/__init__.py`, `policy/prefilterpolicy/operational/hitcounts/__init__.py` | NO |
+| 2.7 | `S2sVpnSummary`: convert to `Resource` with correct PATH (H-07) | `policy/ftds2svpn/s2svpnsummary/__init__.py`, `policy/__init__.py` | YES |
+| 2.8 | `PreviewChanges`: remove `/{uuid}` suffix (H-08) | `changemanagement/ticket/previewchanges/__init__.py` | NO |
+| 2.9 | `ValidationResults`: remove `/{uuid}` suffix (H-09) | `changemanagement/ticket/validationresults/__init__.py` | NO |
+| 2.10 | `DownloadReport`: remove `/{uuid}` suffix (H-10) | `deployment/jobhistory/downloadreport/__init__.py` | NO |
+| 2.11 | `EmailReport`: remove `/{uuid}` + fix version constant (H-11) | `deployment/jobhistory/emailreport/__init__.py` | NO |
+| 2.12 | `FpInterfaceStatistics`: remove `/{uuid}` suffix (H-12) | `device/devicerecord/fpinterfacestatistics/__init__.py` | NO |
+| 2.13 | `ManagementConvergenceMode`: remove `/{uuid}` suffix (H-13) | `device/devicerecord/managementconvergencemode/__init__.py` | NO |
+| 2.14 | `TestUmbrellaConnection`: add `/operational/` segment (H-14) | `integration/testumbrellaconnection/__init__.py` | NO |
+
+### Phase 3 — MEDIUM mapping fixes (prevent KeyError at runtime)
+
+| # | Task | File |
+|---|---|---|
+| 3.1 | `JobHistory`: fix `device_uuid` → `device_uuids` in `SUPPORTED_FILTERS` (M-01) | `deployment/jobhistory/__init__.py` |
+| 3.2 | Add `parent_entity_types`, `parent_uuid` to `FILTERS` in `mapping.py` (M-02) | `fireREST/mapping.py` |
+| 3.3 | Add `source` to `FILTERS` in `mapping.py` (M-03) | `fireREST/mapping.py` |
+| 3.4 | Add `regex_filter`, `query_function`, `step` to `FILTERS` in `mapping.py` (M-04) | `fireREST/mapping.py` |
+| 3.5 | Move `section` from `SUPPORTED_FILTERS` → `SUPPORTED_PARAMS` in `NatRule` (M-05) | `policy/ftdnatpolicy/natrule/__init__.py` |
+| 3.6 | Move `operation` from `SUPPORTED_PARAMS` → `SUPPORTED_FILTERS` in `ChassisInterface` (M-06) | `chassis/interface/__init__.py` |
+| 3.7 | Add `uuid` to `FILTERS` in `mapping.py` (M-07) | `fireREST/mapping.py` |
+| 3.8 | Add `PreviewChanges` filter keys to `FILTERS` in `mapping.py` (M-08) | `fireREST/mapping.py` |
+
+### Phase 4 — New resource classes (additive, no breaking changes)
+
+Each item requires: new folder + `__init__.py`, wire into parent namespace `__init__.py`, wire into `FMC.__init__` if new top-level namespace.
+
+**4A — Search namespace (new top-level `fmc.search`)**
+
+| # | Class | PATH | Type |
+|---|---|---|---|
+| 4A.1 | `GlobalSearch` | `'/search/global'` | `Resource` (GET-only, list-only) |
+| 4A.2 | `ObjectSearch` | `'/search/object'` | `Resource` (GET-only, list-only) |
+| 4A.3 | `PolicySearch` | `'/search/policy'` | `Resource` (GET-only, list-only) |
+| 4A.4 | `DeviceSearch` | `'/search/device'` | `Resource` (GET-only, list-only) |
+| 4A.5 | `Search` grouping class | — | Wire into `FMC.__init__` as `self.search` |
+
+**4B — Object namespace additions**
+
+| # | Class | PATH | Type |
+|---|---|---|---|
+| 4B.1 | `LocalRealmUser` | `'/object/localrealmusers/{uuid}'` | `Resource` (full CRUD) |
+| 4B.2 | `ExtendedCommunityList` | `'/object/extendedcommunitylists/{uuid}'` | `Resource` (full CRUD) |
+| 4B.3 | `ExtendedCommunityListOverride` | `'/object/extendedcommunitylists/{container_uuid}/overrides/{uuid}'` | `ChildResource` of `ExtendedCommunityList` (GET-only) |
+
+**4C — NetMap namespace addition**
+
+| # | Class | PATH | Type |
+|---|---|---|---|
+| 4C.1 | `Vulns` | `'/vulns/{uuid}'` (NAMESPACE=`netmap`) | `Resource` (GET, POST, DELETE) |
+
+**4D — Device namespace — VXLAN interfaces**
+
+| # | Class | PATH | Type |
+|---|---|---|---|
+| 4D.1 | `VniInterface` | `'/devices/devicerecords/{container_uuid}/vniinterfaces/{uuid}'` | `ChildResource` of `DeviceRecord` (full CRUD) |
+| 4D.2 | `VtepPolicy` | `'/devices/devicerecords/{container_uuid}/vteppolicies/{uuid}'` | `ChildResource` of `DeviceRecord` (full CRUD) |
+
+**4E — Device namespace — routing additions**
+
+| # | Class | PATH | Type |
+|---|---|---|---|
+| 4E.1 | `EcmpZone` (device-level) | `'/devices/devicerecords/{container_uuid}/routing/ecmpzones/{uuid}'` | `ChildResource` of `DeviceRecord` (full CRUD) |
+| 4E.2 | `Ospfv3Route` (device-level) | `'/devices/devicerecords/{container_uuid}/routing/ospfv3routes/{uuid}'` | `ChildResource` of `DeviceRecord` (GET-only) |
+| 4E.3 | `EcmpZone` (VR-level) | `'/devices/devicerecords/{container_uuid}/routing/virtualrouters/{child_container_uuid}/ecmpzones/{uuid}'` | `NestedChildResource` (CONTAINER=`DeviceRecord`, CHILD_CONTAINER=`VirtualRouter`, full CRUD) |
+
+**4F — Integration namespace addition**
+
+| # | Class | PATH | Type |
+|---|---|---|---|
+| 4F.1 | `RefreshSecurexConfig` | `'/integration/operational/refreshsecurexconfigs'` | `Resource` (POST-only, list-only) |
+
+### Phase 5 — Operational/custom method additions (L-02)
+
+Lower priority. Each is a custom method added to an existing class rather than a new class.
+
+| # | Method | Class/File | OAS3 Path |
+|---|---|---|---|
+| 5.1 | `backup()` | `Backup` | `POST /backup/operational/devicebackup` |
+| 5.2 | `readiness_check()` | `FtdDeviceCluster` | `POST /deviceclusters/ftdclusterreadinesscheck` |
+| 5.3 | `device_command()` | `FtdDeviceCluster` | `POST /deviceclusters/{uuid}/operational/ftdclusterdevicecommands` |
+| 5.4 | `copy_config()` | `DeviceRecord` | `POST /devices/copyconfigrequests` |
+| 5.5 | `export()` | `DeviceRecord` | `POST /devices/operational/exports` |
+| 5.6 | `import_device()` | `DeviceRecord` | `POST /devices/operational/imports` |
+| 5.7 | `bulk_create()` | `DynamicObject` | `POST /object/bulkdynamicobjects` |
+| 5.8 | `bulk_create_mappings()` / `bulk_delete_mappings()` | `DynamicObject.mapping` | `POST/DELETE /object/dynamicobjectmappings` |
+| 5.9 | `download()` | `InternalCa` | `POST /object/downloadinternalca` |
+| 5.10 | `validate_cert()` | cert class | `POST /object/validatecertfile` |
+
+### Phase 6 — Deprecation cleanup
+
+| # | Task | File |
+|---|---|---|
+| 6.1 | Remove `Csdac` class (L-03): endpoint removed in 7.4.x | `health/csdac/__init__.py` |
+
+---
+
+### CHANGELOG entries required for breaking changes
+
+Breaking changes from Phases 1–2 that need a `## Breaking Changes` section:
+
+- `IpsecCryptoMap` moved from `fmc.policy.ftds2svpn.ipseccryptomap` → `fmc.policy.ravpn.ipseccryptomap`
+- `S2sVpnSummary` moved from `fmc.policy.ftds2svpn.s2svpnsummary` → `fmc.policy.s2svpnsummary`
+- TID URL builder fix changes resolved URLs for all `fmc.intelligence.tid.*` resources
+- `EbsSnapshot` PATH changes from `/integration/ebssnapshots/` → `/integration/ebssnapshot/`
+- `PolicyLock` PATH changes from `/policy/policylocks/` → `/policy/operational/policylocks`
+- `Usage` PATH changes from `/objects/` → `/object/`
+- `Csdac` removed (Phase 6)

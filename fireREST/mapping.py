@@ -247,6 +247,14 @@ FILTERS = {
     'translated_source_port': 'translatedSourcePort',
     'unused_only': 'unusedOnly',
     'vpn_topology_id': 'vpnTopologyId',
+    'entity_uuid': 'EntityUUID',
+    'parent_entity_types': 'ParentEntityTypes',
+    'parent_uuid': 'EntityUUID',
+    'query_function': 'queryFunction',
+    'regex_filter': 'regexFilter',
+    'source': 'source',
+    'step': 'step',
+    'uuid': 'uuid',
     'vuln_id': 'id',
 }
 

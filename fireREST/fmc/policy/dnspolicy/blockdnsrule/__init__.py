@@ -5,5 +5,5 @@ from fireREST.fmc import ChildResource
 class BlockDnsRule(ChildResource):
     CONTAINER_NAME = 'DnsPolicy'
     CONTAINER_PATH = '/policy/dnspolicies/{uuid}'
-    PATH = '/policy/dnspolicies/{container_uuid}/blockdnsrule/{uuid}'
+    PATH = '/policy/dnspolicies/{container_uuid}/blockdnsrules'
     MINIMUM_VERSION_REQUIRED_GET = API_RELEASE_700

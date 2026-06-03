@@ -2,6 +2,80 @@
 
 ## New
 
+* Added `search` namespace with four discovery endpoints:
+  * search.device.get(...)
+  * search.glob.get(...)
+  * search.object.get(...)
+  * search.policy.get(...)
+* Added `object.extendedcommunitylist` resource:
+  * object.extendedcommunitylist.get(...)
+  * object.extendedcommunitylist.create(...)
+  * object.extendedcommunitylist.update(...)
+  * object.extendedcommunitylist.delete(...)
+  * object.extendedcommunitylist.override.get(...)
+* Added `object.localrealmuser` resource:
+  * object.localrealmuser.get(...)
+  * object.localrealmuser.create(...)
+  * object.localrealmuser.update(...)
+  * object.localrealmuser.delete(...)
+* Added VXLAN interface resources:
+  * device.devicerecord.vniinterface.get(...)
+  * device.devicerecord.vniinterface.create(...)
+  * device.devicerecord.vniinterface.update(...)
+  * device.devicerecord.vniinterface.delete(...)
+  * device.devicerecord.vteppolicy.get(...)
+  * device.devicerecord.vteppolicy.create(...)
+  * device.devicerecord.vteppolicy.update(...)
+  * device.devicerecord.vteppolicy.delete(...)
+* Added ECMP zone and OSPFv3 route resources:
+  * device.devicerecord.routing.ecmpzone.get(...)
+  * device.devicerecord.routing.ecmpzone.create(...)
+  * device.devicerecord.routing.ecmpzone.update(...)
+  * device.devicerecord.routing.ecmpzone.delete(...)
+  * device.devicerecord.routing.ospfv3route.get(...)
+  * device.devicerecord.routing.virtualrouter.ecmpzone.get(...)
+  * device.devicerecord.routing.virtualrouter.ecmpzone.create(...)
+  * device.devicerecord.routing.virtualrouter.ecmpzone.update(...)
+  * device.devicerecord.routing.virtualrouter.ecmpzone.delete(...)
+* Added `policy.ravpn.ipseccryptomap` resource (moved from `policy.ftds2svpn.ipseccryptomap`):
+  * policy.ravpn.ipseccryptomap.get(...)
+  * policy.ravpn.ipseccryptomap.update(...)
+* Added top-level `policy.s2svpnsummary` resource (moved from `policy.ftds2svpn.s2svpnsummary`):
+  * policy.s2svpnsummary.get(...)
+
+## Breaking Changes
+
+* `policy.ftds2svpn.ipseccryptomap` moved to `policy.ravpn.ipseccryptomap`. The `ftds2svpns` container never had an `ipseccryptomaps` endpoint in any spec version; all calls were returning 404.
+* `policy.ftds2svpn.s2svpnsummary` moved to `policy.s2svpnsummary`. The resource is a top-level list endpoint and was never a child of `FtdS2sVpn`.
+* `intelligence.tid.*` and `intelligence.taxiiconfig.*` URL builder now includes the required `/domain/{domainUUID}` segment. All TID and TaxiiConfig calls were returning 404 previously.
+* `integration.ebssnapshot` path corrected from `/integration/ebssnapshots/` to `/integration/ebssnapshot/` (singular).
+* `policy.policylock` path corrected from `/policy/policylocks/` to `/policy/operational/policylocks`.
+* `object.operational.usage` path corrected from `/objects/operational/usage` to `/object/operational/usage`.
+* `health.csdac` removed. The `/health/csdac` endpoint was removed from the FMC API in 7.4.x.
+
+## Fixed
+
+* Fixed TID namespace URL builder missing `/domain/{domainUUID}` segment (all `intelligence.tid.*` calls returned 404).
+* Fixed TaxiiConfig `collection` and `discoveryinfo` PATH including spurious `/{uuid}` suffix for POST-only endpoints.
+* Fixed `AllowDnsRule` PATH using singular `allowdnsrule` instead of plural `allowdnsrules`, and incorrectly appending `/{uuid}` to a list-only endpoint.
+* Fixed `BlockDnsRule` PATH using singular `blockdnsrule` instead of plural `blockdnsrules`, and incorrectly appending `/{uuid}` to a list-only endpoint.
+* Fixed `EbsSnapshot` PATH using plural `ebssnapshots` instead of singular `ebssnapshot`.
+* Fixed `PolicyLock` PATH missing `/operational/` segment and incorrectly appending `/{uuid}`.
+* Fixed `Usage` PATH using `/objects/` instead of `/object/`.
+* Fixed `Hitcount` (AccessPolicy and PrefilterPolicy) PATH appending `/{uuid}` to a filter-based list endpoint; implemented `update()` and `delete()` which were no-ops returning without making any HTTP call.
+* Fixed `S2sVpnSummary` implemented as `ChildResource` of `FtdS2sVpn` with a non-existent container path; converted to top-level `Resource`.
+* Fixed `PreviewChanges` PATH appending `/{uuid}` to a list-only endpoint.
+* Fixed `ValidationResults` PATH appending `/{uuid}` to a list-only endpoint.
+* Fixed `DownloadReport` (deployment) PATH appending `/{uuid}` to a list-only endpoint.
+* Fixed `EmailReport` PATH appending `/{uuid}` and declaring `MINIMUM_VERSION_REQUIRED_GET` for a CREATE-only endpoint.
+* Fixed `FpInterfaceStatistics` PATH appending `/{uuid}` to a list-only endpoint.
+* Fixed `ManagementConvergenceMode` PATH appending `/{uuid}` to a list/create-only endpoint.
+* Fixed `TestUmbrellaConnection` PATH missing `/operational/` segment.
+* Fixed `JobHistory` `SUPPORTED_FILTERS` referencing `device_uuid` which does not exist in the `FILTERS` mapping; corrected to `device_uuids`.
+* Fixed `NatRule` `section` misplaced in `SUPPORTED_FILTERS`; moved to `SUPPORTED_PARAMS` so it is sent as a query parameter instead of a filter value.
+* Fixed `ChassisInterface` `operation` misplaced in `SUPPORTED_PARAMS`; moved to `SUPPORTED_FILTERS` so it is sent as `filter=operation:...`.
+* Fixed missing `FILTERS` mapping entries for `entity_uuid`, `parent_entity_types`, `parent_uuid`, `query_function`, `regex_filter`, `source`, `step`, and `uuid`; absence caused `KeyError` at runtime when these filter kwargs were passed.
+
 * Added support for FMC 7.4.0 api calls
   * analysis.activesessions.get(...)
   * analysis.activesessions.delete(...)

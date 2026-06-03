@@ -18,6 +18,8 @@ from fireREST.fmc.device.devicerecord.subinterface import SubInterface
 from fireREST.fmc.device.devicerecord.virtualswitch import VirtualSwitch
 from fireREST.fmc.device.devicerecord.virtualtunnelinterface import VirtualTunnelInterface
 from fireREST.fmc.device.devicerecord.vlaninterface import VlanInterface
+from fireREST.fmc.device.devicerecord.vniinterface import VniInterface
+from fireREST.fmc.device.devicerecord.vteppolicy import VtepPolicy
 
 
 class DeviceRecord(Resource):
@@ -73,3 +75,5 @@ class DeviceRecord(Resource):
         self.virtualswitch = VirtualSwitch(conn)
         self.virtualtunnelinterface = VirtualTunnelInterface(conn)
         self.vlaninterface = VlanInterface(conn)
+        self.vniinterface = VniInterface(conn)
+        self.vteppolicy = VtepPolicy(conn)

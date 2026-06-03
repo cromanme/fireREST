@@ -9,6 +9,7 @@ from fireREST.fmc.policy.flexconfigpolicy import FlexConfigPolicy
 from fireREST.fmc.policy.ftdnatpolicy import FtdNatPolicy
 from fireREST.fmc.policy.ftdplatformsettingspolicy import FtdPlatformSettingsPolicy
 from fireREST.fmc.policy.ftds2svpn import FtdS2sVpn
+from fireREST.fmc.policy.ftds2svpn.s2svpnsummary import S2sVpnSummary
 from fireREST.fmc.policy.healthpolicy import HealthPolicy
 from fireREST.fmc.policy.identitypolicy import IdentityPolicy
 from fireREST.fmc.policy.intrusionpolicy import IntrusionPolicy
@@ -36,6 +37,7 @@ class Policy:
         self.ftdnatpolicy = FtdNatPolicy(conn)
         self.ftdplatformsettingspolicy = FtdPlatformSettingsPolicy(conn)
         self.ftds2svpn = FtdS2sVpn(conn)
+        self.s2svpnsummary = S2sVpnSummary(conn)
         self.healthpolicy = HealthPolicy(conn)
         self.identitypolicy = IdentityPolicy(conn)
         self.intrusionpolicy = IntrusionPolicy(conn)
