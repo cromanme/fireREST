@@ -2,6 +2,15 @@
 
 ## New
 
+* Added granular HTTP exception types to `fireREST.exceptions` based on the FMC ResponseStructure:
+  * `BadRequestError` — HTTP 400 (invalid parameters, missing fields, invalidated policy object)
+  * `MethodNotAllowedError` — HTTP 405 (method not permitted on this resource)
+  * `ServerError` — HTTP 5xx catch-all for FMC server-side failures
+  * `RateLimitError` — HTTP 429 rate limit exceeded (canonical rename of `RateLimitException`)
+  * `ConcurrentRequestError` — HTTP 429 when more than 10 parallel connections from the same IP
+  * `RateLimitWriteError` — HTTP 429 when a parallel write operation is blocked
+  * `RateLimitException` preserved as a backward-compatible alias for `RateLimitError`
+
 * Added `search` namespace with four discovery endpoints:
   * search.device.get(...)
   * search.glob.get(...)
@@ -55,6 +64,10 @@
 
 ## Fixed
 
+* Fixed HTTP 403 responses always raising `AuthorizationError` instead of falling through to `GenericApiError` when response text did not match the expected substring.
+* Fixed HTTP 405 responses always raising `MethodNotAllowedError` instead of falling through to `GenericApiError` when response text did not match the expected substring.
+* Fixed HTTP 5xx responses beyond 500 (502, 503, 504) falling through to `GenericApiError` instead of raising `ServerError`.
+* Fixed HTTP 429 responses not distinguishing between rate limit, concurrent connection, and parallel write errors; now raises `RateLimitWriteError` or `ConcurrentRequestError` as appropriate.
 * Fixed TID namespace URL builder missing `/domain/{domainUUID}` segment (all `intelligence.tid.*` calls returned 404).
 * Fixed TaxiiConfig `collection` and `discoveryinfo` PATH including spurious `/{uuid}` suffix for POST-only endpoints.
 * Fixed `AllowDnsRule` PATH using singular `allowdnsrule` instead of plural `allowdnsrules`, and incorrectly appending `/{uuid}` to a list-only endpoint.
