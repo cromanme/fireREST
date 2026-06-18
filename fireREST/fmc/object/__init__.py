@@ -1,5 +1,9 @@
 from fireREST.fmc import Connection
 from fireREST.fmc.object.anyconnectcustomattribute import AnyconnectCustomAttribute
+from fireREST.fmc.object.downloadrealm import DownloadRealm
+from fireREST.fmc.object.macaddresspool import MacAddressPool
+from fireREST.fmc.object.samlrealmuserandgroup import SamlRealmUserAndGroup
+from fireREST.fmc.object.variable import Variable
 from fireREST.fmc.object.azureadreaml import AzureAdRealm
 from fireREST.fmc.object.azureadstatus import AzureAdStatus
 from fireREST.fmc.object.ciphersuitelist import CipherSuiteList
@@ -198,6 +202,10 @@ class Object:
         self.variableset = VariableSet(conn)
         self.vlangrouptag = VlanGroupTag(conn)
         self.vlantag = VlanTag(conn)
+        self.downloadrealm = DownloadRealm(conn)
+        self.macaddresspool = MacAddressPool(conn)
+        self.samlrealmuserandgroup = SamlRealmUserAndGroup(conn)
+        self.variable = Variable(conn)
         self.azureadream = AzureAdRealm(conn)
         self.azureadstatus = AzureAdStatus(conn)
         self.ciphersuitelist = CipherSuiteList(conn)

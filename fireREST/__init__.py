@@ -27,6 +27,7 @@ from fireREST.fmc.policy import Policy
 from fireREST.fmc.search import Search
 from fireREST.fmc.system import System
 from fireREST.fmc.systemconfiguration import SystemConfiguration
+from fireREST.fmc.templates import Templates
 from fireREST.fmc.troubleshoot import Troubleshoot
 from fireREST.fmc.update import Update
 from fireREST.fmc.user import User
@@ -76,6 +77,7 @@ class FMC:
         self.search = Search(self.conn)
         self.system = System(self.conn)
         self.systemconfiguration = SystemConfiguration(self.conn)
+        self.templates = Templates(self.conn)
         self.troubleshoot = Troubleshoot(self.conn)
         self.update = Update(self.conn)
         self.user = User(self.conn)

@@ -51,6 +51,41 @@
   * policy.ravpn.ipseccryptomap.update(...)
 * Added top-level `policy.s2svpnsummary` resource (moved from `policy.ftds2svpn.s2svpnsummary`):
   * policy.s2svpnsummary.get(...)
+* Added FMC 7.6 support — new `templates` namespace with full device template management:
+  * templates.devicetemplate.get/create/update/delete(...)
+  * templates.devicetemplate.apply(data, container_uuid=...)
+  * templates.devicetemplate.generate(data)
+  * templates.devicetemplate.association.get/delete(...)
+  * templates.devicetemplate.defaultmodelmapping.get(...)
+  * templates.devicetemplate.modelmapping.get/create/update/delete(...)
+  * templates.devicetemplate.objectoverride.get/update(...)
+  * templates.devicetemplate.templateinterface.get/create/delete(...)
+  * templates.devicetemplate.templatevariable.get(...)
+  * templates.devicetemplate.vpnsetting.get/create/update/delete(...)
+  * templates.supporteddevicemodel.get(...)
+* Added FMC 7.6 `analysis.identifieduser` resource:
+  * analysis.identifieduser.get(...)
+  * analysis.identifieduser.delete(...)
+* Added FMC 7.6 `chassis.switch_mode_readiness_check(data)` method
+* Added FMC 7.6 device resources:
+  * device.ltpdevicerecord.get/delete(...)
+  * device.bulkregistration.create(...)
+  * device.downloadsamplecsv.get(...)
+* Added FMC 7.6 `health.event` resource:
+  * health.event.get(...)
+* Added FMC 7.6 object resources:
+  * object.macaddresspool.get/create/update/delete(...)
+  * object.macaddresspool.override.get(...)
+  * object.samlrealmuserandgroup.get(...)
+  * object.variable.get/create/update/delete(...)
+  * object.downloadrealm.create(...)
+  * object.operational.realmstatus.get(...)
+  * object.operational.testrealm.create(...)
+* Added FMC 7.6 write operations to `policy.healthpolicy`:
+  * policy.healthpolicy.create/update/delete(...)
+* Added FMC 7.6 troubleshoot profiler resources:
+  * troubleshoot.cpuprofiler.module.get/create(...)
+  * troubleshoot.snortprofiler.rule.get/create(...)
 
 ## Breaking Changes
 
