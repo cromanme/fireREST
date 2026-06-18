@@ -3,6 +3,7 @@ from typing import Dict
 from fireREST import utils
 from fireREST.defaults import API_RELEASE_630, API_RELEASE_720
 from fireREST.fmc import Connection, Resource
+from fireREST.fmc.device.bulkcommand import BulkCommand
 from fireREST.fmc.device.bulkregistration import BulkRegistration
 from fireREST.fmc.device.certificate import Certificate
 from fireREST.fmc.device.certificatesexportdata import CertificatesExportData
@@ -17,6 +18,7 @@ class Device(Resource):
     def __init__(self, conn: Connection):
         super().__init__(conn)
 
+        self.bulkcommand = BulkCommand(conn)
         self.bulkregistration = BulkRegistration(conn)
         self.certificate = Certificate(conn)
         self.certificatesexportdata = CertificatesExportData(conn)

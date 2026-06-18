@@ -117,6 +117,47 @@
   * policy.accesspolicy.securityintelligencepolicy.update(...)
 * Added FMC 7.7 `troubleshoot.radkit` sub-namespace:
   * troubleshoot.radkit.service.get/create(...)
+* Added FMC 10.0 `analysis.filter` resource:
+  * analysis.filter.get/create/update/delete(...)
+* Added FMC 10.0 `device.bulkcommand` resource:
+  * device.bulkcommand.create(...)
+* Added FMC 10.0 `device.devicerecord.universalzerotrustsetting` resource:
+  * device.devicerecord.universalzerotrustsetting.get/update(...)
+* Added FMC 10.0 integration resources:
+  * integration.ftdcloudstatus.get(...)
+  * integration.metricconfiguration.get/create(...)
+  * integration.splunkprofile.get/create/update/delete(...)
+* Added FMC 10.0 `policy.accesspolicy` children:
+  * policy.accesspolicy.advancedloggingsetting.get/update(...)
+  * policy.accesspolicy.evesetting.get/update(...)
+* Added FMC 10.0 `policy.universalzerotrustpolicy` resource:
+  * policy.universalzerotrustpolicy.get/update(...)
+  * policy.universalzerotrustpolicy.universalzerotrustrule.get/create/update/delete(...)
+* Added FMC 10.0 write operations to `policy.dnspolicy`:
+  * policy.dnspolicy.create/update/delete(...)
+  * policy.dnspolicy.dnsrule.get/create/update/delete(...)
+* Added FMC 10.0 write operations to `policy.identitypolicy`:
+  * policy.identitypolicy.create/update/delete(...)
+  * policy.identitypolicy.identitycategory.get/create/update/delete(...)
+  * policy.identitypolicy.identityrule.get/create/update/delete(...)
+* Added FMC 10.0 `policy.decryptionpolicy.standardmodeconfiguration` resource:
+  * policy.decryptionpolicy.standardmodeconfiguration.get/update(...)
+* Added FMC 10.0 `policy.ftdplatformsettingspolicy.externalauthsetting` resource:
+  * policy.ftdplatformsettingspolicy.externalauthsetting.get/update(...)
+* Added FMC 10.0 `updates` namespace:
+  * updates.contentupdate.get/update(...)
+  * updates.contentupdateoperation.create(...)
+  * updates.deviceupgradeinfo.get(...)
+* Added FMC 10.0 `user.externalauth` sub-namespace:
+  * user.externalauth.externalauth.get/update(...)
+  * user.externalauth.applyexternalauth.create(...)
+  * user.externalauth.fetchldapattributes.create(...)
+  * user.externalauth.fetchldapdns.create(...)
+  * user.externalauth.authconfigobject.get(...)
+  * user.externalauth.ldapconfigobject.get/create/update/delete(...)
+  * user.externalauth.radiusconfigobject.get/create/update/delete(...)
+* Added FMC 10.0 `troubleshoot.packettracer.pcapdetail` resource:
+  * troubleshoot.packettracer.pcapdetail.get/create(...)
 
 ## Breaking Changes
 

@@ -30,6 +30,7 @@ from fireREST.fmc.systemconfiguration import SystemConfiguration
 from fireREST.fmc.templates import Templates
 from fireREST.fmc.troubleshoot import Troubleshoot
 from fireREST.fmc.update import Update
+from fireREST.fmc.updates import Updates
 from fireREST.fmc.user import User
 
 logger = logging.getLogger(__name__)
@@ -80,4 +81,5 @@ class FMC:
         self.templates = Templates(self.conn)
         self.troubleshoot = Troubleshoot(self.conn)
         self.update = Update(self.conn)
+        self.updates = Updates(self.conn)
         self.user = User(self.conn)

@@ -22,6 +22,7 @@ from fireREST.fmc.policy.snmpalert import SnmpAlert
 from fireREST.fmc.policy.syslogalert import SyslogAlert
 from fireREST.fmc.policy.umbrelladnspolicy import UmbrellaDnsPolicy
 from fireREST.fmc.policy.vpntunnelstatus import VpnTunnelStatus
+from fireREST.fmc.policy.universalzerotrustpolicy import UniversalZeroTrustPolicy
 from fireREST.fmc.policy.zerotrustpolicy import ZeroTrustPolicy
 
 
@@ -49,5 +50,6 @@ class Policy:
         self.snmpalert = SnmpAlert(conn)
         self.syslogalert = SyslogAlert(conn)
         self.umbrelladnspolicy = UmbrellaDnsPolicy(conn)
+        self.universalzerotrustpolicy = UniversalZeroTrustPolicy(conn)
         self.vpntunnelstatus = VpnTunnelStatus(conn)
         self.zerotrustpolicy = ZeroTrustPolicy(conn)
