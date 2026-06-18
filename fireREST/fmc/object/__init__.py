@@ -3,6 +3,7 @@ from fireREST.fmc.object.anyconnectcustomattribute import AnyconnectCustomAttrib
 from fireREST.fmc.object.downloadrealm import DownloadRealm
 from fireREST.fmc.object.macaddresspool import MacAddressPool
 from fireREST.fmc.object.samlrealmuserandgroup import SamlRealmUserAndGroup
+from fireREST.fmc.object.serviceaccessobject import ServiceAccessObject
 from fireREST.fmc.object.variable import Variable
 from fireREST.fmc.object.azureadreaml import AzureAdRealm
 from fireREST.fmc.object.azureadstatus import AzureAdStatus
@@ -205,6 +206,7 @@ class Object:
         self.downloadrealm = DownloadRealm(conn)
         self.macaddresspool = MacAddressPool(conn)
         self.samlrealmuserandgroup = SamlRealmUserAndGroup(conn)
+        self.serviceaccessobject = ServiceAccessObject(conn)
         self.variable = Variable(conn)
         self.azureadream = AzureAdRealm(conn)
         self.azureadstatus = AzureAdStatus(conn)

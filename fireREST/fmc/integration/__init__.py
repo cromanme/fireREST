@@ -3,8 +3,10 @@ from typing import Dict
 from fireREST import utils
 from fireREST.defaults import API_RELEASE_740
 from fireREST.fmc import Connection, Resource
+from fireREST.fmc.integration.aiops import AiOps
 from fireREST.fmc.integration.cdfmcsnapshot import CdfmcSnapshot
 from fireREST.fmc.integration.cloudeventsconfig import CloudEventsConfig
+from fireREST.fmc.integration.cloudintegration import CloudIntegration
 from fireREST.fmc.integration.cloudregion import CloudRegion
 from fireREST.fmc.integration.ebssnapshot import EbsSnapshot
 from fireREST.fmc.integration.externallookup import ExternalLookup
@@ -19,8 +21,10 @@ from fireREST.fmc.integration.umbrellaconnection import UmbrellaConnection
 class Integration(Resource):
     def __init__(self, conn: Connection):
         super().__init__(conn)
+        self.aiops = AiOps(conn)
         self.cdfmcsnapshot = CdfmcSnapshot(conn)
         self.cloudeventsconfig = CloudEventsConfig(conn)
+        self.cloudintegration = CloudIntegration(conn)
         self.cloudregion = CloudRegion(conn)
         self.ebssnapshot = EbsSnapshot(conn)
         self.externallookup = ExternalLookup(conn)

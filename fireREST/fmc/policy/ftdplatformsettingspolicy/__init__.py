@@ -1,8 +1,11 @@
 from fireREST.defaults import API_RELEASE_730
 from fireREST.fmc import Connection, Resource
+from fireREST.fmc.policy.ftdplatformsettingspolicy.bannersetting import BannerSetting
+from fireREST.fmc.policy.ftdplatformsettingspolicy.eventlist import EventList
 from fireREST.fmc.policy.ftdplatformsettingspolicy.httpaccesssettings import HttpAccessSettings
 from fireREST.fmc.policy.ftdplatformsettingspolicy.netflowpolicies import NetflowPolicies
 from fireREST.fmc.policy.ftdplatformsettingspolicy.snmpsettings import SnmpSettings
+from fireREST.fmc.policy.ftdplatformsettingspolicy.sshaccesssetting import SshAccessSetting
 
 
 class FtdPlatformSettingsPolicy(Resource):
@@ -33,6 +36,9 @@ class FtdPlatformSettingsPolicy(Resource):
 
     def __init__(self, conn: Connection):
         super().__init__(conn)
+        self.bannersetting = BannerSetting(conn)
+        self.eventlist = EventList(conn)
         self.httpaccesssettings = HttpAccessSettings(conn)
         self.netflowpolicies = NetflowPolicies(conn)
         self.snmpsettings = SnmpSettings(conn)
+        self.sshaccesssetting = SshAccessSetting(conn)

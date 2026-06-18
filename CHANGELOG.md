@@ -86,6 +86,37 @@
 * Added FMC 7.6 troubleshoot profiler resources:
   * troubleshoot.cpuprofiler.module.get/create(...)
   * troubleshoot.snortprofiler.rule.get/create(...)
+* Added FMC 7.7 write operations to OSPFv2/v3 routing resources:
+  * device.devicerecord.routing.ospfv2route.create/update/delete(...)
+  * device.devicerecord.routing.ospfv3interface.create/update/delete(...)
+  * device.devicerecord.routing.ospfv3route.create/update/delete(...)
+  * device.devicerecord.routing.virtualrouter.ospfv2route.create/update/delete(...)
+  * device.devicerecord.routing.virtualrouter.ospfinterface.create/update/delete(...)
+* Added FMC 7.7 device certificate resources:
+  * device.certificate.get(...)
+  * device.certificatesexportdata.get(...)
+  * device.managecertificate.create(...)
+  * device.devicerecord.operational.outofbandchange.get/create(...)
+* Added FMC 7.7 `health.aggregatemetric` resource:
+  * health.aggregatemetric.get(...)
+* Added FMC 7.7 `integration.aiops` sub-namespace:
+  * integration.aiops.aiconfiguration.get/create(...)
+  * integration.aiops.tsdbupload.create(...)
+  * integration.aiops.tsdbuploadstatus.get(...)
+* Added FMC 7.7 `integration.cloudintegration` resource:
+  * integration.cloudintegration.get(...)
+* Added FMC 7.7 object resources:
+  * object.certenrollment.override.get(...)
+  * object.serviceaccessobject.get/create/update/delete(...)
+  * object.serviceaccessobject.override.get(...)
+* Added FMC 7.7 `policy.ftdplatformsettingspolicy` children:
+  * policy.ftdplatformsettingspolicy.bannersetting.get/update(...)
+  * policy.ftdplatformsettingspolicy.eventlist.get/create/update/delete(...)
+  * policy.ftdplatformsettingspolicy.sshaccesssetting.get/create/update/delete(...)
+* Added FMC 7.7 write operation to `policy.accesspolicy.securityintelligencepolicy`:
+  * policy.accesspolicy.securityintelligencepolicy.update(...)
+* Added FMC 7.7 `troubleshoot.radkit` sub-namespace:
+  * troubleshoot.radkit.service.get/create(...)
 
 ## Breaking Changes
 
