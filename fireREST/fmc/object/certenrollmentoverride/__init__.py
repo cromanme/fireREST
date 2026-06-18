@@ -3,7 +3,7 @@ from fireREST.fmc import ChildResource
 
 
 class CertEnrollmentOverride(ChildResource):
-    """Retrieves overrides for the specified certificate enrollment object.
+    """Get list of all certificate enrollment object overrides within the specified containerUUID.
 
     **Tags:** Object
 
@@ -11,7 +11,13 @@ class CertEnrollmentOverride(ChildResource):
 
     **Operation IDs:**
 
-    - `getAllCertEnrollmentOverride` (GET (list))
+    - `getVpnCertEnrollmentOverride` (GET (list))
+
+    **Query parameters:**
+
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
     """
 
     CONTAINER_NAME = 'CertEnrollment'

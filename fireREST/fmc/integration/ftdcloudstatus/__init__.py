@@ -3,7 +3,7 @@ from fireREST.fmc import Resource
 
 
 class FtdCloudStatus(Resource):
-    """Retrieves the FTD cloud status for the specified device.
+    """Get the cloud connectivity status of FTD managed by cdFMC.
 
     **Tags:** Integration
 
@@ -11,7 +11,7 @@ class FtdCloudStatus(Resource):
 
     **Operation IDs:**
 
-    - `getFtdCloudStatus` (GET)
+    - `getFTDCloudStatus` (GET)
     """
 
     PATH = '/integration/ftdcloudstatus/{uuid}'

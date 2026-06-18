@@ -3,7 +3,7 @@ from fireREST.fmc import Resource
 
 
 class CertificatesExportData(Resource):
-    """Retrieves certificate export data for the specified object.
+    """Get the exported certificate for download.
 
     **Tags:** Devices
 
@@ -11,7 +11,7 @@ class CertificatesExportData(Resource):
 
     **Operation IDs:**
 
-    - `getCertificatesExportData` (GET)
+    - `getDeviceCertificateExportData` (GET)
     """
 
     PATH = '/devices/certificatesexportdata/{uuid}'

@@ -8,14 +8,14 @@ from fireREST.fmc.integration.cdfmcsnapshot import CdfmcSnapshot
 from fireREST.fmc.integration.cloudeventsconfig import CloudEventsConfig
 from fireREST.fmc.integration.cloudintegration import CloudIntegration
 from fireREST.fmc.integration.cloudregion import CloudRegion
-from fireREST.fmc.integration.ftdcloudstatus import FtdCloudStatus
-from fireREST.fmc.integration.metricconfiguration import MetricConfiguration
-from fireREST.fmc.integration.splunkprofile import SplunkProfile
 from fireREST.fmc.integration.ebssnapshot import EbsSnapshot
 from fireREST.fmc.integration.externallookup import ExternalLookup
 from fireREST.fmc.integration.externalstorage import ExternalStorage
 from fireREST.fmc.integration.fmchastatus import FmcHaStatus
+from fireREST.fmc.integration.ftdcloudstatus import FtdCloudStatus
+from fireREST.fmc.integration.metricconfiguration import MetricConfiguration
 from fireREST.fmc.integration.securexconfig import SecurexConfig
+from fireREST.fmc.integration.splunkprofile import SplunkProfile
 from fireREST.fmc.integration.testumbrellaconnection import TestUmbrellaConnection
 from fireREST.fmc.integration.umbrella import Umbrella
 from fireREST.fmc.integration.umbrellaconnection import UmbrellaConnection
@@ -29,14 +29,14 @@ class Integration(Resource):
         self.cloudeventsconfig = CloudEventsConfig(conn)
         self.cloudintegration = CloudIntegration(conn)
         self.cloudregion = CloudRegion(conn)
-        self.ftdcloudstatus = FtdCloudStatus(conn)
-        self.metricconfiguration = MetricConfiguration(conn)
-        self.splunkprofile = SplunkProfile(conn)
         self.ebssnapshot = EbsSnapshot(conn)
         self.externallookup = ExternalLookup(conn)
         self.externalstorage = ExternalStorage(conn)
         self.fmchastatus = FmcHaStatus(conn)
+        self.ftdcloudstatus = FtdCloudStatus(conn)
+        self.metricconfiguration = MetricConfiguration(conn)
         self.securexconfig = SecurexConfig(conn)
+        self.splunkprofile = SplunkProfile(conn)
         self.testumbrellaconnection = TestUmbrellaConnection(conn)
         self.umbrella = Umbrella(conn)
         self.umbrellaconnection = UmbrellaConnection(conn)

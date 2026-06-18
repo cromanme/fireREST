@@ -3,7 +3,7 @@ from fireREST.fmc import ChildResource
 
 
 class OutOfBandChange(ChildResource):
-    """Retrieves or creates out-of-band change records for the specified device.
+    """Get out of band changes on the device.
 
     **Tags:** Devices
 
@@ -11,8 +11,14 @@ class OutOfBandChange(ChildResource):
 
     **Operation IDs:**
 
-    - `getAllOutOfBandChange` (GET (list))
-    - `createOutOfBandChange` (CREATE)
+    - `getOutOfBandChanges` (GET (list))
+    - `createOutOfBandChanges` (CREATE)
+
+    **Query parameters:**
+
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
     """
 
     CONTAINER_NAME = 'DeviceRecord'

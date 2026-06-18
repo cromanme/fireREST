@@ -3,7 +3,7 @@ from fireREST.fmc import Resource
 
 
 class AiConfiguration(Resource):
-    """Retrieves or creates AI Operations configuration.
+    """****
 
     **Tags:** Integration
 
@@ -11,8 +11,14 @@ class AiConfiguration(Resource):
 
     **Operation IDs:**
 
-    - `getAllAiConfiguration` (GET (list))
-    - `createAiConfiguration` (CREATE)
+    - `getAiOpsModel` (GET (list))
+    - `createAiOpsModel` (CREATE)
+
+    **Query parameters:**
+
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
     """
 
     PATH = '/integration/aiops/configure'

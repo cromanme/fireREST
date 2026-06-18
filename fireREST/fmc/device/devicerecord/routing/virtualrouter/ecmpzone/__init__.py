@@ -3,6 +3,26 @@ from fireREST.fmc import NestedChildResource
 
 
 class EcmpZone(NestedChildResource):
+    """Get the ECMP Zone associated with the specified ID on the specified virtual router.
+
+    **Tags:** Devices
+
+    **Supported operations:** GET, CREATE, UPDATE, DELETE
+
+    **Operation IDs:**
+
+    - `getAllVrfECMPZoneModel` (GET (list))
+    - `getVrfECMPZoneModel` (GET)
+    - `createVrfECMPZoneModel` (CREATE)
+    - `updateVrfECMPZoneModel` (UPDATE)
+    - `deleteVrfECMPZoneModel` (DELETE)
+
+    **Query parameters:**
+
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
+    """
     CONTAINER_NAME = 'DeviceRecord'
     CONTAINER_PATH = '/devices/devicerecords/{uuid}'
     CHILD_CONTAINER_NAME = 'VirtualRouter'

@@ -3,7 +3,7 @@ from fireREST.fmc import ChildResource
 
 
 class IdentityCategory(ChildResource):
-    """Retrieves, creates, updates, or deletes identity categories for the specified identity policy.
+    """Get the identity policy category associated with the specified UUID.
 
     **Tags:** Policy
 
@@ -11,11 +11,21 @@ class IdentityCategory(ChildResource):
 
     **Operation IDs:**
 
-    - `getAllIdentityCategory` (GET (list))
-    - `getIdentityCategory` (GET)
-    - `createIdentityCategory` (CREATE)
-    - `updateIdentityCategory` (UPDATE)
-    - `deleteIdentityCategory` (DELETE)
+    - `getAllIdentityPolicyCategory` (GET (list))
+    - `getIdentityPolicyCategory` (GET)
+    - `createIdentityPolicyCategory` (CREATE)
+    - `updateIdentityPolicyCategory` (UPDATE)
+    - `deleteIdentityPolicyCategory` (DELETE)
+
+    **Query parameters:**
+
+    - `filter` (string, optional): Format of the filter should be `name:{category_name}` or `ids:{id1,id2,...}`.
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
+    - `aboveCategory` (string, optional): UUID of the identity policy category above which the category will be added.
+    - `aboveRule` (string, optional): UUID of the identity policy rule above which the category will be added.
+    - `belowRule` (string, optional): UUID of the identity policy rule below which the category will be added.
     """
 
     CONTAINER_NAME = 'IdentityPolicy'

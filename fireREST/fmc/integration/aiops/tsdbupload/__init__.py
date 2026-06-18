@@ -11,7 +11,7 @@ class TsdbUpload(Resource):
 
     **Operation IDs:**
 
-    - `createTsdbUpload` (CREATE)
+    - `createPrometheusTSDBUpload` (CREATE)
     """
 
     PATH = '/integration/aiops/tsdbupload'

@@ -3,7 +3,7 @@ from fireREST.fmc import Resource
 
 
 class CloudIntegration(Resource):
-    """Retrieves cloud integrations configured on the FMC.
+    """****
 
     **Tags:** Integration
 
@@ -11,7 +11,13 @@ class CloudIntegration(Resource):
 
     **Operation IDs:**
 
-    - `getAllCloudIntegration` (GET (list))
+    - `getAllCloudIntegrationStatus` (GET (list))
+
+    **Query parameters:**
+
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
     """
 
     PATH = '/integration/cloudintegrations/cloudintegrations'

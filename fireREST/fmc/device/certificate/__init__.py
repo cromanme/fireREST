@@ -3,7 +3,7 @@ from fireREST.fmc import Resource
 
 
 class Certificate(Resource):
-    """Retrieves certificates across all managed devices.
+    """Get a list of all the certificates enrolled in devices.
 
     **Tags:** Devices
 
@@ -11,7 +11,14 @@ class Certificate(Resource):
 
     **Operation IDs:**
 
-    - `getAllCertificate` (GET (list))
+    - `getDeviceCertificateModel` (GET (list))
+
+    **Query parameters:**
+
+    - `filter` (string, optional): Filter by `deviceId` or filter by `expiryInDays`. When filtering by `deviceId:{id}`, lists all certificates enrolled on the given device. If filtering by `expiryInDays:{number of days}`, lists only the certificates which will expire within the given number of days.
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
     """
 
     PATH = '/devices/certificates'

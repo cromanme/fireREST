@@ -3,7 +3,7 @@ from fireREST.fmc import Resource
 
 
 class RadKitService(Resource):
-    """Retrieves or creates RADKit service entries.
+    """Get the RADKit Service data from the specified ID.
 
     **Tags:** Troubleshoot
 
@@ -11,9 +11,15 @@ class RadKitService(Resource):
 
     **Operation IDs:**
 
-    - `getAllRadKitService` (GET (list))
-    - `getRadKitService` (GET)
-    - `createRadKitService` (CREATE)
+    - `getAllRADKitService` (GET (list))
+    - `getRADKitService` (GET)
+    - `createRADKitService` (CREATE)
+
+    **Query parameters:**
+
+    - `offset` (integer, optional): Index of first item to return.
+    - `limit` (integer, optional): Number of items to return.
+    - `expanded` (boolean, optional): Include extended sub-object details in response.
     """
 
     NAMESPACE = 'troubleshoot'
