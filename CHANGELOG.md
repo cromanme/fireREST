@@ -1,4 +1,9 @@
-# Unreleased
+# 1.3.0 [2026-06-12]
+
+## Breaking Changes
+
+* `policy.prefilterpolicy.accessrule` renamed to `prefilterrule`.
+* `device.devicerecord.operational.command.get()` filter is now correctly passed as a list to `utils.search_filter()`.
 
 ## New
 
@@ -465,13 +470,9 @@
   includes it in the docs without any manual file edits.
 * Added FMC API release constants for 7.6.0, 7.7.0, and 10.0.0 in `defaults.py`.
 
-## Breaking Changes
-
-* `policy.prefilterpolicy.accessrule` renamed to `prefilterrule`.
-* `device.devicerecord.operational.command.get()` filter is now correctly passed as a list to `utils.search_filter()`.
-
 ## Fixed
 
+* Fixed `policy.accesspolicy.operational.hitcounts.delete()` not accepting `container_uuid`, `device_id`, or `ids` parameters, making it impossible to reset hitcounts (Issue #102).
 * Fixed `TypeError` in `netmap.host.delete()` and `netmap.vulnerability.delete()` caused by unsupported `url=` keyword argument to `Resource.delete()`.
 * Fixed `cluster.ftddevicecluster.operational.command()` building malformed URLs.
 * Fixed `chassis.operational` methods building malformed URLs.
