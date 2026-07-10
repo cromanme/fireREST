@@ -467,8 +467,7 @@ the following CRUD operations:
 │   │   ├── endpoint
 │   │   ├── ikesettings
 │   │   ├── ipseccryptomap
-│   │   ├── ipsecsettings
-│   │   └── s2svpnsummary
+│   │   └── ipsecsettings
 │   ├── healthpolicy
 │   ├── identitypolicy
 │   │   ├── identitycategory
@@ -495,6 +494,7 @@ the following CRUD operations:
 │   │   ├── ldapattributemap
 │   │   ├── loadbalancesettings
 │   │   └── secureclientcustomizationsettings
+│   ├── s2svpnsummary
 │   ├── snmpalert
 │   ├── syslogalert
 │   ├── umbrelladnspolicy
