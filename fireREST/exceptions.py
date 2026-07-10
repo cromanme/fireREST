@@ -40,7 +40,7 @@ class MethodNotAllowedError(GenericApiError):
 
 
 class RateLimitError(GenericApiError):
-    """HTTP 429 — API rate limit exceeded (more than 120 GET requests/min from a single IP)"""
+    """HTTP 429 — API rate limit exceeded (exact threshold varies by FMC version)"""
 
 
 # Backward-compatible alias — do not remove
@@ -48,11 +48,11 @@ RateLimitException = RateLimitError
 
 
 class ConcurrentRequestError(RateLimitError):
-    """HTTP 429 — too many concurrent connections (limit: 10 per IP)"""
+    """HTTP 429 — too many concurrent connections"""
 
 
 class RateLimitWriteError(RateLimitError):
-    """HTTP 429 — parallel write operation blocked (only one PUT/POST/DELETE per user at a time)"""
+    """HTTP 429 — a parallel write operation was blocked"""
 
 
 class UnsupportedOperationError(GenericApiError):

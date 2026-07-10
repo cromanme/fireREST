@@ -1,9 +1,14 @@
-# 1.3.0 [2026-06-12]
+# Unreleased
 
 ## Breaking Changes
 
-* `policy.prefilterpolicy.accessrule` renamed to `prefilterrule`.
-* `device.devicerecord.operational.command.get()` filter is now correctly passed as a list to `utils.search_filter()`.
+* `policy.ftds2svpn.ipseccryptomap` moved to `policy.ravpn.ipseccryptomap`. The `ftds2svpns` container never had an `ipseccryptomaps` endpoint in any spec version; all calls were returning 404.
+* `policy.ftds2svpn.s2svpnsummary` moved to `policy.s2svpnsummary`. The resource is a top-level list endpoint and was never a child of `FtdS2sVpn`.
+* `intelligence.tid.*` and `intelligence.taxiiconfig.*` URL builder now includes the required `/domain/{domainUUID}` segment. All TID and TaxiiConfig calls were returning 404 previously.
+* `integration.ebssnapshot` path corrected from `/integration/ebssnapshots/` to `/integration/ebssnapshot/` (singular).
+* `policy.policylock` path corrected from `/policy/policylocks/` to `/policy/operational/policylocks`.
+* `object.operational.usage` path corrected from `/objects/operational/usage` to `/object/operational/usage`.
+* `health.csdac` removed. The `/health/csdac` endpoint was removed from the FMC API in 7.4.x.
 
 ## New
 
@@ -164,16 +169,6 @@
 * Added FMC 10.0 `troubleshoot.packettracer.pcapdetail` resource:
   * troubleshoot.packettracer.pcapdetail.get/create(...)
 
-## Breaking Changes
-
-* `policy.ftds2svpn.ipseccryptomap` moved to `policy.ravpn.ipseccryptomap`. The `ftds2svpns` container never had an `ipseccryptomaps` endpoint in any spec version; all calls were returning 404.
-* `policy.ftds2svpn.s2svpnsummary` moved to `policy.s2svpnsummary`. The resource is a top-level list endpoint and was never a child of `FtdS2sVpn`.
-* `intelligence.tid.*` and `intelligence.taxiiconfig.*` URL builder now includes the required `/domain/{domainUUID}` segment. All TID and TaxiiConfig calls were returning 404 previously.
-* `integration.ebssnapshot` path corrected from `/integration/ebssnapshots/` to `/integration/ebssnapshot/` (singular).
-* `policy.policylock` path corrected from `/policy/policylocks/` to `/policy/operational/policylocks`.
-* `object.operational.usage` path corrected from `/objects/operational/usage` to `/object/operational/usage`.
-* `health.csdac` removed. The `/health/csdac` endpoint was removed from the FMC API in 7.4.x.
-
 ## Fixed
 
 * Fixed HTTP 403 responses always raising `AuthorizationError` instead of falling through to `GenericApiError` when response text did not match the expected substring.
@@ -200,6 +195,15 @@
 * Fixed `NatRule` `section` misplaced in `SUPPORTED_FILTERS`; moved to `SUPPORTED_PARAMS` so it is sent as a query parameter instead of a filter value.
 * Fixed `ChassisInterface` `operation` misplaced in `SUPPORTED_PARAMS`; moved to `SUPPORTED_FILTERS` so it is sent as `filter=operation:...`.
 * Fixed missing `FILTERS` mapping entries for `entity_uuid`, `parent_entity_types`, `parent_uuid`, `query_function`, `regex_filter`, `source`, `step`, and `uuid`; absence caused `KeyError` at runtime when these filter kwargs were passed.
+
+# 1.3.0 [2026-06-12]
+
+## Breaking Changes
+
+* `policy.prefilterpolicy.accessrule` renamed to `prefilterrule`.
+* `device.devicerecord.operational.command.get()` filter is now correctly passed as a list to `utils.search_filter()`.
+
+## New
 
 * Added support for FMC 7.4.0 api calls
   * analysis.activesessions.get(...)
